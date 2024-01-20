@@ -43,6 +43,8 @@ Scene::Scene(std::string pathToJson)
 
 void Scene::parse(std::string sceneDirectory, nlohmann::json sceneConfig)
 {
+    Vector3f from, to, up;
+
     // Output
     try {
         auto res = sceneConfig["output"]["resolution"];
@@ -56,11 +58,14 @@ void Scene::parse(std::string sceneDirectory, nlohmann::json sceneConfig)
     // Cameras
     try {
         auto cam = sceneConfig["camera"];
+        from = Vector3f(cam["from"][0], cam["from"][1], cam["from"][2]);
+        to = Vector3f(cam["to"][0], cam["to"][1], cam["to"][2]);
+        up = Vector3f(cam["up"][0], cam["up"][1], cam["up"][2]);
 
         this->camera = Camera(
-            Vector3f(cam["from"][0], cam["from"][1], cam["from"][2]),
-            Vector3f(cam["to"][0], cam["to"][1], cam["to"][2]),
-            Vector3f(cam["up"][0], cam["up"][1], cam["up"][2]),
+            Vector3f(0, 0, 0),
+            to - from,
+            up,
             float(cam["fieldOfView"]),
             this->imageResolution
         );
@@ -78,7 +83,7 @@ void Scene::parse(std::string sceneDirectory, nlohmann::json sceneConfig)
         for (std::string surfacePath : surfacePaths) {
             surfacePath = sceneDirectory + "/" + surfacePath;
 
-            auto surf = createSurfaces(surfacePath, /*isLight=*/false, /*idx=*/surfaceIdx);
+            auto surf = createSurfaces(surfacePath, /*isLight=*/false, /*idx=*/surfaceIdx, /*cameraCoords=*/ from);
             this->surfaces.insert(this->surfaces.end(), surf.begin(), surf.end());
 
             surfaceIdx = surfaceIdx + surf.size();

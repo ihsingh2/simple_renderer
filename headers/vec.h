@@ -26,6 +26,11 @@ public:
     Vector2(T xx, T yy) : x(xx), y(yy) {  }
     bool HasNaNs() const { return isNaN(x) || isNaN(y); }
 
+    friend std::ostream& operator<<(std::ostream& out, const Vector2<T>& v) {
+        out << "(" << v.x << "," << v.y << ")";
+        return out;
+    }
+
     Vector2<T> operator+(const Vector2<T>& v) const {
         return Vector2(x + v.x, y + v.y);
     }
@@ -104,6 +109,11 @@ public:
     Vector3() { x = y = z = 0; }
     Vector3(T x, T y, T z) : x(x), y(y), z(z) { }
     bool HasNaNs() const { return isNaN(x) || isNaN(y) || isNaN(z); }
+
+    friend std::ostream& operator<<(std::ostream& out, const Vector3<T>& v) {
+        out << "(" << v.x << "," << v.y << "," << v.z << ")";
+        return out;
+    }
 
     Vector3<T> operator+(const Vector3<T>& v) const {
         return Vector3(x + v.x, y + v.y, z + v.z);

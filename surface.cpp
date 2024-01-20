@@ -3,7 +3,7 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tinyobjloader/tiny_obj_loader.h"
 
-std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_t shapeIdx)
+std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_t shapeIdx, Vector3f cameraCoords)
 {
     std::string objDirectory;
     const size_t last_slash_idx = pathToObj.rfind('/');
@@ -73,7 +73,7 @@ std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_
                     uvs[v] = Vector2f(tx, ty);
                 }
 
-                vertices[v] = Vector3f(vx, vy, vz);
+                vertices[v] = Vector3f(vx, vy, vz) - cameraCoords;
             }
 
             int vSize = surf.vertices.size();

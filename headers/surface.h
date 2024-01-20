@@ -25,4 +25,4 @@ private:
     bool hasAlphaTexture();
 };
 
-std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_t shapeIdx);
+std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_t shapeIdx, Vector3f cameraCoords);
