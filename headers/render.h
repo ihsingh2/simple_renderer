@@ -5,7 +5,7 @@
 struct Integrator {
     Integrator(Scene& scene);
 
-    long long render();
+    long long render(int intersectionVariant);
 
     Scene scene;
     Texture outputImage;

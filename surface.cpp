@@ -47,7 +47,7 @@ std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_
             }
 
             // Loop over vertices in the face. Assume 3 vertices per-face
-            Vector3f vertices[3], normals[3];
+            Vector3f vertices[3], normals[3], centroid, avgnorm;
             Vector2f uvs[3];
             for (size_t v = 0; v < fv; v++) {
                 // access to vertex
@@ -76,6 +76,9 @@ std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_
                 vertices[v] = Vector3f(vx, vy, vz) - cameraCoords;
             }
 
+            centroid = (vertices[0] + vertices[1] + vertices[2]) * 0.333333f;
+            avgnorm = Normalize(normals[0] + normals[1] + normals[2]);
+
             int vSize = surf.vertices.size();
             Vector3i findex(vSize, vSize + 1, vSize + 2);
 
@@ -86,6 +89,9 @@ std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_
             surf.normals.push_back(normals[0]);
             surf.normals.push_back(normals[1]);
             surf.normals.push_back(normals[2]);
+
+            surf.centroids.push_back(centroid);
+            surf.avgnorms.push_back(avgnorm);
 
             surf.uvs.push_back(uvs[0]);
             surf.uvs.push_back(uvs[1]);
@@ -204,10 +210,7 @@ Interaction Surface::rayIntersect(Ray ray)
         Vector3f p2 = this->vertices[face.y];
         Vector3f p3 = this->vertices[face.z];
 
-        Vector3f n1 = this->normals[face.x];
-        Vector3f n2 = this->normals[face.y];
-        Vector3f n3 = this->normals[face.z];
-        Vector3f n = Normalize(n1 + n2 + n3);
+        Vector3f n = this->avgnorms[face.x / 3];
 
         Interaction si = this->rayTriangleIntersect(ray, p1, p2, p3, n);
         if (si.t <= tmin && si.didIntersect) {

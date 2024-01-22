@@ -25,5 +25,5 @@ make -j8
 ## Running
 The path to scene config (typically named `config.json`) and the path of the output image are passed using command line arguments as follows:
 ```bash
-./build/render <scene_path> <out_path>
+./build/render <scene_path> <out_path> <intersection_variant>
 ```

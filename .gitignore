@@ -1,2 +1,5 @@
-scenes/*
-build/*
+.vscode/
+build/
+report/*
+!report/*.pdf
+scenes/

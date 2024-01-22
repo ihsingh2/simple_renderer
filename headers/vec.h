@@ -167,6 +167,20 @@ public:
     Vector3<T> operator-() const { return Vector3<T>(-x, -y, -z); }
     float LengthSquared() const { return x * x + y * y + z * z; }
     float Length() const { return std::sqrt(LengthSquared()); }
+    int MaxAxis() const {
+        if (x >= y) {
+            if (x >= z)
+                return 0;
+            else
+                return 2;
+        }
+        else {
+            if (y >= z)
+                return 1;
+            else
+                return 2;
+        }
+    }
 
     // Vector3 Public Data
     T x, y, z;
@@ -226,4 +240,24 @@ inline Vector2<T> Normalize(const Vector2<T>& v) {
 template <typename T>
 Vector2<T> Abs(const Vector2<T>& v) {
     return Vector2<T>(std::abs(v.x), std::abs(v.y));
+}
+
+template <typename T>
+Vector3<T> Min(const Vector3<T>& p1, const Vector3<T>& p2) {
+    return Vector3<T>(std::min(p1.x, p2.x), std::min(p1.y, p2.y), std::min(p1.z, p2.z));
+}
+
+template <typename T> 
+Vector3<T> Max(const Vector3<T>& p1, const Vector3<T>& p2) {
+    return Vector3<T>(std::max(p1.x, p2.x), std::max(p1.y, p2.y), std::max(p1.z, p2.z));
+}
+
+template <typename T>
+Vector2<T> Min(const Vector2<T>& p1, const Vector2<T>& p2) {
+    return Vector2<T>(std::min(p1.x, p2.x), std::min(p1.y, p2.y));
+}
+
+template <typename T> 
+Vector2<T> Max(const Vector2<T>& p1, const Vector2<T>& p2) {
+    return Vector2<T>(std::max(p1.x, p2.x), std::max(p1.y, p2.y));
 }

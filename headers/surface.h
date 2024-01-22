@@ -4,7 +4,7 @@
 #include "texture.h"
 
 struct Surface {
-    std::vector<Vector3f> vertices, normals;
+    std::vector<Vector3f> vertices, normals, centroids, avgnorms;
     std::vector<Vector3i> indices;
     std::vector<Vector2f> uvs;
 
