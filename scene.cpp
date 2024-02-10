@@ -110,6 +110,8 @@ void Scene::parse(std::string sceneDirectory, nlohmann::json sceneConfig)
         std::cout << "No surfaces defined." << std::endl;
     }
 
+    this->lights = loadLights(sceneConfig);
+
     // Build the BVH
     this->buildBVH();
 }
@@ -215,6 +217,7 @@ void Scene::intersectBVH(uint32_t nodeIdx, Ray &ray, Interaction& si)
             Interaction siIntermediate = this->surfaces[this->getIdx(i + node.firstPrim)].rayIntersect(ray);
             if (siIntermediate.t <= ray.t) {
                 si = siIntermediate;
+                si.surfaceIdx = this->getIdx(i + node.firstPrim);
                 ray.t = si.t;
             }
         }
@@ -233,4 +236,31 @@ Interaction Scene::rayIntersect(Ray& ray)
     this->intersectBVH(0, ray, si);
 
     return si;
+}
+
+Vector3f Scene::fetchTextureColor(Interaction& si, int interpolationVariant)
+{
+    Texture tex;
+    if (this->surfaces[si.surfaceIdx].hasAlphaTexture())
+        tex = this->surfaces[si.surfaceIdx].alphaTexture;
+    else if (this->surfaces[si.surfaceIdx].hasDiffuseTexture())
+        tex = this->surfaces[si.surfaceIdx].diffuseTexture;
+    else
+        return this->surfaces[si.surfaceIdx].diffuse;
+
+    Vector3f diffuse;
+    switch (interpolationVariant)
+    {
+        case 0:
+            diffuse = tex.nearestNeighbourFetch(si.uv);
+            break;
+
+        case 1:
+            diffuse = tex.bilinearFetch(si.uv);
+            break;
+
+        default:
+            diffuse = this->surfaces[si.surfaceIdx].diffuse;
+    }
+    return diffuse;
 }

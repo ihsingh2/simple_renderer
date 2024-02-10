@@ -18,13 +18,15 @@ struct Ray {
     float t = 1e30f;
     float tmax = 1e30f;
 
-
+    Ray() {}
     Ray(Vector3f origin, Vector3f direction, float t = 1e30f, float tmax = 1e30f)
         : o(origin), d(direction), t(t), tmax(tmax) {};
 };
 
 struct Interaction {
     Vector3f p, n;
+    Vector2f uv;
+    int surfaceIdx;
     float t = 1e30f;
     bool didIntersect = false;
 };

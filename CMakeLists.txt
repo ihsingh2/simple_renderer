@@ -44,6 +44,7 @@ add_executable(render
 
 	scene.cpp
 	camera.cpp
+	light.cpp
 	surface.cpp
 	texture.cpp
 

@@ -80,6 +80,53 @@ Vector3f Texture::loadPixelColor(int x, int y) {
     return rval;
 }
 
+Vector3f Texture::nearestNeighbourFetch(Vector2f uv)
+{
+    int x, y;
+    uv *= (this->resolution);
+
+    x = (int) std::round(uv[0]);
+    y = (int) std::round(uv[1]);
+    x = std::min(x, this->resolution.x - 1);
+    y = std::min(y, this->resolution.y - 1);
+    
+    return this->loadPixelColor(x, y);
+}
+
+Vector3f Texture::bilinearFetch(Vector2f uv)
+{
+    int x1, x2, y1, y2;
+    Vector3f c, cu, cl, c1, c2, c3, c4;
+    uv *= this->resolution;
+
+    x1 = (int) std::floor(uv[0]);
+    y1 = (int) std::floor(uv[1]);
+    x2 = (int) std::ceil(uv[0]);
+    y2 = (int) std::ceil(uv[1]);
+    x2 = std::min(x2, this->resolution.x - 1);
+    y2 = std::min(y2, this->resolution.y - 1);
+
+    c1 = this->loadPixelColor(x1, y1);
+    c2 = this->loadPixelColor(x2, y1);
+    c3 = this->loadPixelColor(x1, y2);
+    c4 = this->loadPixelColor(x2, y2);
+
+    if (x1 != x2) {
+        cu = ((x2 - uv[0]) * c1) + ((uv[0] - x1) * c2);
+        cl = ((x2 - uv[0]) * c3) + ((uv[0] - x1) * c4);
+    } else {
+        cu = c1;
+        cl = c3;
+    }
+
+    if (y1 != y2)
+        c = ((y2 - uv[1]) * cl) + ((uv[1] - y1) * cu);
+    else
+        c =  cl;
+
+    return c;
+}
+
 void Texture::loadJpg(std::string pathToJpg)
 {
     Vector2i res;

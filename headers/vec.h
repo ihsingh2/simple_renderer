@@ -26,6 +26,11 @@ public:
     Vector2(T xx, T yy) : x(xx), y(yy) {  }
     bool HasNaNs() const { return isNaN(x) || isNaN(y); }
 
+    friend std::ostream& operator<<(std::ostream& out, const Vector2<T>& v) {
+        out << "(" << v.x << "," << v.y << ")";
+        return out;
+    }
+
     Vector2<T> operator+(const Vector2<T>& v) const {
         return Vector2(x + v.x, y + v.y);
     }
@@ -61,7 +66,8 @@ public:
         y *= f;
         return *this;
     }
-    Vector2<T>& operator*=(const Vector2<T>& v) {
+    template <typename U>
+    Vector2<T>& operator*=(const Vector2<U>& v) {
         x *= v.x;
         y *= v.y;
         return *this;
@@ -124,6 +130,11 @@ public:
     Vector3(T x, T y, T z) : x(x), y(y), z(z) { }
     bool HasNaNs() const { return isNaN(x) || isNaN(y) || isNaN(z); }
 
+    friend std::ostream& operator<<(std::ostream& out, const Vector3<T>& v) {
+        out << "(" << v.x << "," << v.y << "," << v.z << ")";
+        return out;
+    }
+    
     Vector3<T> operator+(const Vector3<T>& v) const {
         return Vector3(x + v.x, y + v.y, z + v.z);
     }
@@ -263,4 +274,24 @@ inline Vector2<T> Normalize(const Vector2<T>& v) {
 template <typename T>
 Vector2<T> Abs(const Vector2<T>& v) {
     return Vector2<T>(std::abs(v.x), std::abs(v.y));
+}
+
+template <typename T>
+Vector3<T> Min(const Vector3<T>& p1, const Vector3<T>& p2) {
+    return Vector3<T>(std::min(p1.x, p2.x), std::min(p1.y, p2.y), std::min(p1.z, p2.z));
+}
+
+template <typename T> 
+Vector3<T> Max(const Vector3<T>& p1, const Vector3<T>& p2) {
+    return Vector3<T>(std::max(p1.x, p2.x), std::max(p1.y, p2.y), std::max(p1.z, p2.z));
+}
+
+template <typename T>
+Vector2<T> Min(const Vector2<T>& p1, const Vector2<T>& p2) {
+    return Vector2<T>(std::min(p1.x, p2.x), std::min(p1.y, p2.y));
+}
+
+template <typename T> 
+Vector2<T> Max(const Vector2<T>& p1, const Vector2<T>& p2) {
+    return Vector2<T>(std::max(p1.x, p2.x), std::max(p1.y, p2.y));
 }

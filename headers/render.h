@@ -5,7 +5,7 @@
 struct Integrator {
     Integrator(Scene& scene);
 
-    long long render();
+    long long render(int interpolationVariant);
 
     Scene scene;
     Texture outputImage;

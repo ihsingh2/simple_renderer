@@ -156,6 +156,7 @@ std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_
 
         if (materialIds.size() == 0) {
             std::cerr << "One of the meshes has no material definition, may cause unexpected behaviour." << std::endl;
+            continue;
         }
         else {
             // Load textures from Materials
@@ -352,16 +353,17 @@ void Surface::intersectBVH(uint32_t nodeIdx, Ray& ray, Interaction& si)
     if (node.primCount != 0) {
         // Leaf
         for (uint32_t i = 0; i < node.primCount; i++) {
-            Interaction siIntermediate = this->rayTriangleIntersect(
-                ray,
-                this->tris[this->getIdx(i + node.firstPrim)].v1,
-                this->tris[this->getIdx(i + node.firstPrim)].v2,
-                this->tris[this->getIdx(i + node.firstPrim)].v3,
-                this->tris[this->getIdx(i + node.firstPrim)].normal
-            );
+            Tri& tri = this->tris[this->getIdx(i + node.firstPrim)];
+            Interaction siIntermediate = this->rayTriangleIntersect(ray, tri.v1, tri.v2, tri.v3, tri.normal);
             if (siIntermediate.t <= ray.t && siIntermediate.didIntersect) {
                 si = siIntermediate;
                 ray.t = si.t;
+
+                float area = (Cross(tri.v2 - tri.v1, tri.v3 - tri.v1)).Length();
+                float alpha = (Cross(tri.v2 - tri.v3, si.p - tri.v3)).Length() / area;
+                float beta = (Cross(tri.v1 - tri.v3, si.p - tri.v3)).Length() / area;
+                float gamma = (Cross(tri.v2 - tri.v1, si.p - tri.v1)).Length() / area;
+                si.uv = (alpha * tri.uv1) + (beta * tri.uv2) + (gamma * tri.uv3);
             }
         }
     }
