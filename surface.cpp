@@ -113,6 +113,7 @@ std::vector<Surface> createSurfaces(std::string pathToObj, bool isLight, uint32_
 
         if (materialIds.size() == 0) {
             std::cerr << "One of the meshes has no material definition, may cause unexpected behaviour." << std::endl;
+            continue;
         }
         else {
             // Load textures from Materials
