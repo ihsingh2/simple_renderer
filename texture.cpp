@@ -10,7 +10,7 @@
 
 float gammaTransform(float val) {
     // Uncomment below to disable gamma transform during debugging
-    // return val;
+    // return std::max(std::min(val, 1.0f), 0.f);
 
     float transformed = std::pow(val, 1 / 2.2);
     float clamped = std::min(transformed, 1.0f);

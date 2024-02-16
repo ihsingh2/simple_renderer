@@ -36,7 +36,11 @@ class Light {
          * \return wo
          * The sampled direction in world space
          */
-        std::pair<Vector3f, LightSample> sample(Interaction *si);
+        std::pair<Vector3f, LightSample> sample(Interaction *si, int samplingMethod);
+
+        std::pair<Vector3f, LightSample> uniformHemisphereSampling(Interaction *si, float eps1, float eps2);
+        std::pair<Vector3f, LightSample> cosineWeightedSampling(Interaction *si, float eps1, float eps2);
+        std::pair<Vector3f, LightSample> areaLightSampling(Interaction *si, float eps1, float eps2);
 
         /**
          * Checks whether a ray intersects with the light.
