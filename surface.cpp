@@ -388,7 +388,7 @@ void Surface::intersectBVH(uint32_t nodeIdx, Ray& ray, Interaction& si)
 
                 // Set the view direction in local coordinates
                 si.c = si.n;
-                si.b = Normalize(Cross(si.c, -ray.d));
+                si.b = Normalize(OrthogonalPair(si.c));
                 si.a = Normalize(Cross(si.b, si.c));
                 si.wi = si.toLocal(-ray.d);
             }

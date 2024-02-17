@@ -209,6 +209,21 @@ public:
     float LengthSquared() const { return x * x + y * y + z * z; }
     float Length() const { return std::sqrt(LengthSquared()); }
 
+    int smallestAbsEntry() const {
+        if (std::abs(x) <= std::abs(y)) {
+            if (std::abs(x) <= std::abs(z))
+                return 0;
+            else
+                return 2;
+        }
+        else {
+            if (std::abs(y) <= std::abs(z))
+                return 1;
+            else
+                return 2;
+        }
+    }
+
     // Vector3 Public Data
     T x, y, z;
 };
@@ -249,6 +264,20 @@ inline Vector3<T> Cross(const Vector3<T>& v1, const Vector3<T>& v2) {
 template <typename T>
 inline Vector3<T> Normalize(const Vector3<T>& v) {
     return v / v.Length();
+}
+
+template <typename T>
+Vector3<T> OrthogonalPair(const Vector3<T>& v) {
+    int axis = v.smallestAbsEntry();
+    switch (axis)
+    {
+        case 0:
+            return Vector3<T>(0, -v.z, v.y);
+        case 1:
+            return Vector3<T>(-v.z, 0, v.x);
+        default:
+            return Vector3<T>(-v.y, v.x, 0);
+    }
 }
 
 template <typename T, typename U>
