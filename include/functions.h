@@ -26,8 +26,8 @@ int main(int argc, char* argv[]);
 // shapes.cpp
 void createShape(int num_sides);
 void translateShape(glm::vec3 translation);
-void rotateShapeX();
-void rotateShapeY();
-void rotateShapeZ();
+void rotateShapeX(float alpha);
+void rotateShapeY(float alpha);
+void rotateShapeZ(float alpha);
 
 #endif

@@ -42,7 +42,7 @@ void processInput(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
         glm::vec3 center = objectCenter;
         translateShape(-center);
-        rotateShapeY();
+        rotateShapeY(ROT_ANGLE);
         translateShape(center);
     }
 }

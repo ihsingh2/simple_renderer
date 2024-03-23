@@ -12,7 +12,6 @@ extern std::vector<unsigned int> indices_prism;
 extern std::vector<float> vertices_pyramid;
 extern std::vector<unsigned int> indices_pyramid;
 extern glm::vec3 objectCenter;
-// extern glm::vec3 cameraTarget;
 
 void createShape(int num_sides) {
     float radius = 0.5;
@@ -98,35 +97,47 @@ void translateShape(glm::vec3 translation) {
     }
 }
 
-void rotateShapeX() {
+void rotateShapeX(float alpha) {
     for (int i = 0; i < vertices_prism.size(); i = i + 6) {
-        vertices_prism[i + 1] = vertices_prism[i + 1] * std::cos(ROT_ANGLE) - vertices_prism[i + 2] * std::sin(ROT_ANGLE);
-        vertices_prism[i + 2] = vertices_prism[i + 1] * std::sin(ROT_ANGLE) + vertices_prism[i + 2] * std::cos(ROT_ANGLE);
+        float y = vertices_prism[i + 1];
+        float z = vertices_prism[i + 2];
+        vertices_prism[i + 1] = y * std::cos(alpha) - z * std::sin(alpha);
+        vertices_prism[i + 2] = y * std::sin(alpha) + z * std::cos(alpha);
     }
     for (int i = 0; i < vertices_pyramid.size(); i = i + 6) {
-        vertices_pyramid[i + 1] = vertices_pyramid[i + 1] * std::cos(ROT_ANGLE) - vertices_pyramid[i + 2] * std::sin(ROT_ANGLE);
-        vertices_pyramid[i + 2] = vertices_pyramid[i + 1] * std::sin(ROT_ANGLE) + vertices_pyramid[i + 2] * std::cos(ROT_ANGLE);
+        float y = vertices_prism[i + 1];
+        float z = vertices_prism[i + 2];
+        vertices_pyramid[i + 1] = y * std::cos(alpha) - z * std::sin(alpha);
+        vertices_pyramid[i + 2] = y * std::sin(alpha) + z * std::cos(alpha);
     }
 }
 
-void rotateShapeY() {
+void rotateShapeY(float alpha) {
     for (int i = 0; i < vertices_prism.size(); i = i + 6) {
-        vertices_prism[i] = vertices_prism[i] * std::cos(ROT_ANGLE) + vertices_prism[i + 2] * std::sin(ROT_ANGLE);
-        vertices_prism[i + 2] = vertices_prism[i + 2] * std::cos(ROT_ANGLE) - vertices_prism[i] * std::sin(ROT_ANGLE);
+        float x = vertices_prism[i];
+        float z = vertices_prism[i + 2];
+        vertices_prism[i] = x * std::cos(alpha) + z * std::sin(alpha);
+        vertices_prism[i + 2] = z * std::cos(alpha) - x * std::sin(alpha);
     }
     for (int i = 0; i < vertices_pyramid.size(); i = i + 6) {
-        vertices_pyramid[i] = vertices_pyramid[i] * std::cos(ROT_ANGLE) + vertices_pyramid[i + 2] * std::sin(ROT_ANGLE);
-        vertices_pyramid[i + 2] = vertices_pyramid[i + 2] * std::cos(ROT_ANGLE) - vertices_pyramid[i] * std::sin(ROT_ANGLE);
+        float x = vertices_pyramid[i];
+        float z = vertices_pyramid[i + 2];
+        vertices_pyramid[i] = x * std::cos(alpha) + z * std::sin(alpha);
+        vertices_pyramid[i + 2] = z * std::cos(alpha) - x * std::sin(alpha);
     }
 }
 
-void rotateShapeZ() {
+void rotateShapeZ(float alpha) {
     for (int i = 0; i < vertices_prism.size(); i = i + 6) {
-        vertices_prism[i] = vertices_prism[i] * std::cos(ROT_ANGLE) - vertices_prism[i + 1] * std::sin(ROT_ANGLE);
-        vertices_prism[i + 1] = vertices_prism[i] * std::sin(ROT_ANGLE) + vertices_prism[i + 1] * std::cos(ROT_ANGLE);
+        float x = vertices_prism[i];
+        float y = vertices_prism[i + 1];
+        vertices_prism[i] = x * std::cos(alpha) - y * std::sin(alpha);
+        vertices_prism[i + 1] = x * std::sin(alpha) + y * std::cos(alpha);
     }
     for (int i = 0; i < vertices_pyramid.size(); i = i + 6) {
-        vertices_pyramid[i] = vertices_pyramid[i] * std::cos(ROT_ANGLE) - vertices_pyramid[i + 1] * std::sin(ROT_ANGLE);
-        vertices_pyramid[i + 1] = vertices_pyramid[i] * std::sin(ROT_ANGLE) + vertices_pyramid[i + 1] * std::cos(ROT_ANGLE);
+        float x = vertices_prism[i];
+        float y = vertices_prism[i + 1];
+        vertices_pyramid[i] = x * std::cos(alpha) - y * std::sin(alpha);
+        vertices_pyramid[i + 1] = x * std::sin(alpha) + y * std::cos(alpha);
     }
 }
