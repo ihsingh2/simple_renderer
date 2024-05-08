@@ -1,29 +1,42 @@
-# Introduction to Computer Graphics (CS7.302, IIIT Hyderabad)
-This is the base code that is to be used for all assignments in the above course. <br>
-Some sample scenes are given in the <a href="https://github.com/cs7-302-graphics/scenes">cs7-302-graphics/scenes</a> repo.
+## Brief
 
-Instructions to clone, compile and run are given below.
+Implementation of Direct Lighting and Texture Mapping.
 
-## Cloning this repo
-```git clone --recursive https://github.com/cs7-302-graphics/simple_renderer```
-Do not forget the `--recursive` flag!
+## Direct Lighting
 
-## Compiling
+- Point Light
+
+```math
+L_o (\textbf{x}, \boldsymbol{\omega}_o) = \sum_{\textbf{p} \in \mathcal{P}} f \left( \textbf{x}, \boldsymbol{\omega}_o, \cfrac{\textbf{p} - \textbf{x}}{\lvert \textbf{p} - \textbf{x} \rvert} \right) \cfrac{L_i \left( \textbf{x}, \cfrac{\textbf{p} - \textbf{x}}{\lvert \textbf{p} - \textbf{x} \rvert} \right)}{\lvert \textbf{p} - \textbf{x} \rvert ^ 2} \left( \cfrac{\textbf{p} - \textbf{x}}{\lvert \textbf{p} - \textbf{x} \rvert} \cdot \textbf{n} \right)
 ```
+
+- Directional Light
+
+```math
+L_o (\textbf{x}, \boldsymbol{\omega}_o) = \sum_{\boldsymbol{\omega} \in \mathcal{D}} f(\textbf{x}, \boldsymbol{\omega}_o, \boldsymbol{\omega}) L_i(\textbf{x}, \boldsymbol{\omega}) (\boldsymbol{\omega} \cdot \textbf{n})
+```
+
+## Instructions
+
+### Steps to build
+
+```shell
+git clone --recursive https://github.com/ihsingh2/simple_renderer
+```
+
+```shell
 mkdir build
 cd build
 cmake ..
-```
-
-If you are on windows, this should create a Visual Studio solution ```cs7302.sln``` in the build folder. Open it and compile. \
-If you are on linux/mac, you will need to additionally run the following to compile:
-
-```
 make -j8
 ```
 
-## Running
-The path to scene config (typically named `config.json`) and the path of the output image are passed using command line arguments as follows:
-```bash
-./build/render <scene_path> <out_path>
+### Steps to run
+
+```shell
+git clone https://github.com/ihsingh2/scenes
+```
+
+```shell
+./build/render <scene_path> <out_path> <interpolation_variant>
 ```
