@@ -50,5 +50,5 @@ git clone https://github.com/ihsingh2/scenes
 ```
 
 ```shell
-./build/render <scene_path> <out_path>
+./build/render <scene_path> <out_path> <num_samples> <sampling_strategy>
 ```
