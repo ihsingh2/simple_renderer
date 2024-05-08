@@ -1,4 +1,4 @@
-.vscode/
+**/.tmp/
+**/.vscode/
+build/
 scenes/
-build/*
-report/*.tex

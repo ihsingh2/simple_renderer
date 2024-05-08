@@ -38,14 +38,14 @@ include_directories(
 ###############################################################################
 
 add_executable(render
-	render.cpp
+	src/render.cpp
 
-	bsdf.cpp
-	camera.cpp
-	light.cpp
-	scene.cpp
-	surface.cpp
-	texture.cpp
+	src/bsdf.cpp
+	src/camera.cpp
+	src/light.cpp
+	src/scene.cpp
+	src/surface.cpp
+	src/texture.cpp
 
 	# DEPS
   	extern/tinyexr/deps/miniz/miniz.c
